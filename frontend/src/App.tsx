@@ -15,6 +15,8 @@ import { VerbalFluencyAssessment } from "./pages/VerbalFluencyAssessment";
 import { TrailMakingAssessment } from "./pages/TrailMakingAssessment";
 import { StroopColorAssessment } from "./pages/StroopColorAssessment";
 import ComprehensiveAssessment from "./pages/ComprehensiveAssessment";
+import { ChatPage } from "./pages/ChatPage";
+import { CommunityPage } from "./pages/CommunityPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -94,6 +96,24 @@ const App = () => (
             <Route path="/index" element={<Navigate to="/dashboard" replace />} />
             
             {/* Catch-all route for 404 */}
+            {/* New Community Features */}
+            <Route 
+              path="/chat" 
+              element={
+                <ProtectedRoute>
+                  <ChatPage />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/community" 
+              element={
+                <ProtectedRoute>
+                  <CommunityPage />
+                </ProtectedRoute>
+              } 
+            />
+
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthProvider>

@@ -1,6 +1,7 @@
-import { Brain, Menu, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { MayaAvatar } from "@/components/MayaAvatar";
+import { Link } from "react-router-dom";
+import { cn } from "@/lib/utils";
 
 interface HeaderProps {
   onMenuClick?: () => void;
@@ -30,6 +31,29 @@ export const Header = ({ onMenuClick, onSettingsClick }: HeaderProps) => {
               <p className="text-xs text-muted-foreground">AI Cognitive Assessment</p>
             </div>
           </div>
+          
+          <nav className="hidden lg:flex items-center gap-6 ml-6">
+            <Link 
+              to="/dashboard" 
+              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Dashboard
+            </Link>
+            <Link 
+              to="/chat"
+              className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <MessageCircle className="w-4 h-4" />
+              Chat
+            </Link>
+            <Link 
+              to="/community"
+              className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <Users className="w-4 h-4" />
+              Community
+            </Link>
+          </nav>
         </div>
 
         <div className="flex items-center gap-4">
