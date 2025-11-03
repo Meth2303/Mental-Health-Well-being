@@ -1,3 +1,4 @@
+import { Brain, Menu, Settings, MessageCircle, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { MayaAvatar } from "@/components/MayaAvatar";
 import { Link } from "react-router-dom";
