@@ -38,7 +38,7 @@ export const Header = ({ onMenuClick, onSettingsClick }: HeaderProps) => {
               to="/dashboard" 
               className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
             >
-              Dashboard
+              Assesment
             </Link>
             <Link 
               to="/chat"

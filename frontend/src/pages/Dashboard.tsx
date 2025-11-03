@@ -7,6 +7,7 @@ import { MayaAvatar } from "@/components/MayaAvatar";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import { Header } from "@/components/Header";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -112,6 +113,7 @@ export const Dashboard = () => {
   return (
     <div className="min-h-screen bg-gradient-calm">
       {/* Header with User Profile */}
+      <Header />
       <div className="border-b border-border/50 bg-white/80 backdrop-blur-sm">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
