@@ -7,6 +7,7 @@ from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 import os
 from dotenv import load_dotenv
+import bcrypt
 
 from database import get_db
 from models import User
@@ -19,18 +20,48 @@ ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 1440  # 24 hours
 
 # Password hashing
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+# Prefer bcrypt_sha256 to avoid the 72-byte limitation in raw bcrypt
+# bcrypt_sha256 hashes the password with SHA-256 before applying bcrypt
+# Use PBKDF2-SHA256 as the preferred hasher to avoid native bcrypt backend issues on some systems
+# PBKDF2-SHA256 is secure and avoids the 72-byte bcrypt limitation and any bcrypt backend detection errors
+pwd_context = CryptContext(schemes=["pbkdf2_sha256", "bcrypt_sha256", "bcrypt"], deprecated="auto")
 
 # OAuth2 scheme
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/token")
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
-    """Verify a plain password against its hash"""
-    return pwd_context.verify(plain_password, hashed_password)
+    """Verify a plain password against its hash.
+
+    Uses passlib's CryptContext by default but falls back to the bcrypt
+    library directly when passlib's bcrypt backend fails (this can happen
+    when the installed `bcrypt` implementation is missing version metadata
+    or when passlib's backend detection misbehaves). Also safely truncates
+    the password to 72 bytes prior to using the bcrypt library which
+    enforces a 72-byte maximum.
+    """
+    try:
+        return pwd_context.verify(plain_password, hashed_password)
+    except Exception:
+        # Fallback to bcrypt.checkpw directly
+        try:
+            pw = plain_password.encode("utf-8")
+            if len(pw) > 72:
+                pw = pw[:72]
+            return bcrypt.checkpw(pw, hashed_password.encode("utf-8"))
+        except Exception:
+            return False
 
 def get_password_hash(password: str) -> str:
     """Generate hash for a password"""
-    return pwd_context.hash(password)
+    try:
+        return pwd_context.hash(password)
+    except Exception:
+        # Fallback to bcrypt library directly (ensure truncation to 72 bytes)
+        pw = password.encode("utf-8")
+        if len(pw) > 72:
+            pw = pw[:72]
+        hashed = bcrypt.hashpw(pw, bcrypt.gensalt())
+        return hashed.decode("utf-8")
 
 def get_user_by_username(db: Session, username: str) -> Optional[User]:
     """Get user by username"""

@@ -18,6 +18,7 @@ import ComprehensiveAssessment from "./pages/ComprehensiveAssessment";
 import { ChatPage } from "./pages/ChatPage";
 import { CommunityPage } from "./pages/CommunityPage";
 import NotFound from "./pages/NotFound";
+import Home from "./pages/Home";
 
 const queryClient = new QueryClient();
 
@@ -30,7 +31,7 @@ const App = () => (
         <AuthProvider>
           <Routes>
             {/* Public Routes */}
-            <Route path="/" element={<Navigate to="/dashboard" replace />} />
+            <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             
