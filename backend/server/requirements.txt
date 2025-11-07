@@ -1,0 +1,7 @@
+fastapi
+uvicorn[standard]
+transformers>=4.30.0
+torch            # or torch+cuda if you have GPU; pick correct package for your system
+# optional: bitsandbytes accelerate for 8-bit loading if desired:
+# bitsandbytes
+# accelerate

@@ -9,6 +9,8 @@ from typing import Optional, List
 import logging
 import os
 
+from server.app import router as maya_router 
+
 # Import custom modules
 from database import get_db, create_tables
 from models import User, Patient, Assessment, NLPAnalysis, ProgressTracking
@@ -521,7 +523,7 @@ async def health_check():
         },
         "timestamp": datetime.utcnow().isoformat()
     }
-
+app.include_router(maya_router, prefix="/api/maya")
 # ============================================================================
 # MAIN
 # ============================================================================

@@ -1,4 +1,6 @@
+// src/components/community/Community.tsx
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -8,6 +10,7 @@ import {
   ChevronDown,
   MessageSquare,
   Plus,
+  MessageCircle,
 } from "lucide-react";
 import {
   Dialog,
@@ -57,6 +60,7 @@ const initialPosts: Post[] = [
 ];
 
 export const Community = () => {
+  const navigate = useNavigate();
   const [posts, setPosts] = useState<Post[]>(initialPosts);
   const [newPostTitle, setNewPostTitle] = useState("");
   const [newPostContent, setNewPostContent] = useState("");
@@ -93,35 +97,49 @@ export const Community = () => {
     <div className="container py-6">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Community Discussion</h1>
-        <Dialog open={showNewPost} onOpenChange={setShowNewPost}>
-          <DialogTrigger asChild>
-            <Button>
-              <Plus className="w-4 h-4 mr-2" />
-              New Post
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Create a New Post</DialogTitle>
-            </DialogHeader>
-            <div className="space-y-4">
-              <Input
-                placeholder="Post Title"
-                value={newPostTitle}
-                onChange={(e) => setNewPostTitle(e.target.value)}
-              />
-              <Textarea
-                placeholder="Share your thoughts, experiences, or questions..."
-                value={newPostContent}
-                onChange={(e) => setNewPostContent(e.target.value)}
-                className="min-h-[200px]"
-              />
-              <Button onClick={handleCreatePost} className="w-full">
-                Post
+
+        {/* Actions: New Post + Chat with Maya */}
+        <div className="flex items-center gap-3">
+          <Dialog open={showNewPost} onOpenChange={setShowNewPost}>
+            <DialogTrigger asChild>
+              <Button>
+                <Plus className="w-4 h-4 mr-2" />
+                New Post
               </Button>
-            </div>
-          </DialogContent>
-        </Dialog>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Create a New Post</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4">
+                <Input
+                  placeholder="Post Title"
+                  value={newPostTitle}
+                  onChange={(e) => setNewPostTitle(e.target.value)}
+                />
+                <Textarea
+                  placeholder="Share your thoughts, experiences, or questions..."
+                  value={newPostContent}
+                  onChange={(e) => setNewPostContent(e.target.value)}
+                  className="min-h-[200px]"
+                />
+                <Button onClick={handleCreatePost} className="w-full">
+                  Post
+                </Button>
+              </div>
+            </DialogContent>
+          </Dialog>
+
+          {/* Chat with Maya button — navigates to separate Maya page */}
+          <Button
+            variant="outline"
+            onClick={() => navigate("/chat/maya")}
+            className="flex items-center gap-2"
+          >
+            <MessageCircle className="w-4 h-4" />
+            Chat with Maya
+          </Button>
+        </div>
       </div>
 
       <div className="space-y-4">

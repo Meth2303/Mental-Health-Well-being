@@ -17,6 +17,8 @@ import { StroopColorAssessment } from "./pages/StroopColorAssessment";
 import ComprehensiveAssessment from "./pages/ComprehensiveAssessment";
 import { ChatPage } from "./pages/ChatPage";
 import { CommunityPage } from "./pages/CommunityPage";
+import { BotChatPage } from "./pages/BotChatPage";
+import { ChatWithMayaPage } from "./pages/ChatWithMayaPage";
 import NotFound from "./pages/NotFound";
 import Home from "./pages/Home";
 
@@ -44,6 +46,15 @@ const App = () => (
                 </ProtectedRoute>
               } 
             />
+            <Route
+              path="/chat/maya"
+              element={
+                <ProtectedRoute>
+                  <ChatWithMayaPage />
+                </ProtectedRoute>
+              }
+            />
+
             <Route 
               path="/assessment/memory" 
               element={
@@ -84,6 +95,15 @@ const App = () => (
                 </ProtectedRoute>
               } 
             />
+            <Route
+              path="/bot"
+              element={
+                <ProtectedRoute>
+                  <BotChatPage />
+                </ProtectedRoute>
+              }
+            />
+
             <Route 
               path="/assessment/comprehensive" 
               element={
